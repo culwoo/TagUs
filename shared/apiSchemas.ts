@@ -3,7 +3,10 @@ import { z } from 'zod';
 const base64Regex = /^[A-Za-z0-9+/=]+$/;
 
 export const identifyRequestSchema = z.object({
-  imageBase64: z.string().min(1, 'imageBase64 is required').regex(base64Regex, 'invalid base64 payload'),
+  imageBase64: z
+    .string()
+    .min(1, 'imageBase64 is required')
+    .regex(base64Regex, 'invalid base64 payload'),
   mimeType: z.string().min(1, 'mimeType is required'),
 });
 
@@ -13,7 +16,10 @@ export const identifyResponseSchema = z.object({
 });
 
 export const removeBackgroundRequestSchema = z.object({
-  imageBase64: z.string().min(1, 'imageBase64 is required').regex(base64Regex, 'invalid base64 payload'),
+  imageBase64: z
+    .string()
+    .min(1, 'imageBase64 is required')
+    .regex(base64Regex, 'invalid base64 payload'),
   mimeType: z.string().min(1, 'mimeType is required'),
   itemName: z.string().trim().min(1).optional(),
 });

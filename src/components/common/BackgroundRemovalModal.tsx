@@ -13,7 +13,7 @@ export type RemovalMethod = 'rembg' | 'grabcut' | 'ai';
 
 const base64ToBlob = (base64: string, contentType: string) => {
   const byteCharacters = atob(base64);
-  const byteNumbers = Array.from(byteCharacters, (char) => char.charCodeAt(0));
+  const byteNumbers = Array.from(byteCharacters, char => char.charCodeAt(0));
   const byteArray = new Uint8Array(byteNumbers);
   return new Blob([byteArray], { type: contentType });
 };
@@ -49,14 +49,18 @@ const BackgroundRemovalModal: React.FC<BackgroundRemovalModalProps> = ({
       showToast('배경 제거 중...', 'info');
 
       const data = await api.removeBackground({ imageFile: file });
-      const processedBlob = base64ToBlob(data.processedImageBase64, data.contentType || 'image/png');
-      const processedFile = new File([processedBlob], `processed-${Date.now()}.png`, { type: data.contentType || 'image/png' });
+      const processedBlob = base64ToBlob(
+        data.processedImageBase64,
+        data.contentType || 'image/png'
+      );
+      const processedFile = new File([processedBlob], `processed-${Date.now()}.png`, {
+        type: data.contentType || 'image/png',
+      });
       const previewUrl = URL.createObjectURL(processedFile);
 
       onRemove({ previewUrl, file: processedFile });
       showToast('배경 제거 완료!', 'success');
       onClose();
-
     } catch (error) {
       console.error('Background removal failed:', error);
       showToast('배경 제거에 실패했습니다. 다시 시도해주세요.', 'error');
@@ -79,10 +83,7 @@ const BackgroundRemovalModal: React.FC<BackgroundRemovalModalProps> = ({
       aria-modal="true"
       aria-labelledby="modal-title"
     >
-      <div
-        className="bg-white rounded-2xl max-w-md w-full p-6"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="bg-white rounded-2xl max-w-md w-full p-6" onClick={e => e.stopPropagation()}>
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <h2 id="modal-title" className="text-xl font-bold text-[#1A1A1A]">
@@ -100,20 +101,14 @@ const BackgroundRemovalModal: React.FC<BackgroundRemovalModalProps> = ({
 
         {/* Preview Image */}
         <div className="bg-gray-100 rounded-xl p-4 mb-6">
-          <img
-            src={imageUrl}
-            alt="Original"
-            className="w-full h-auto rounded-lg"
-          />
+          <img src={imageUrl} alt="Original" className="w-full h-auto rounded-lg" />
         </div>
 
         {/* Method Selection */}
         <div className="mb-6">
-          <label className="text-sm font-semibold text-[#1A1A1A] mb-2 block">
-            제거 방법
-          </label>
+          <label className="text-sm font-semibold text-[#1A1A1A] mb-2 block">제거 방법</label>
           <div className="grid grid-cols-3 gap-2">
-            {(['rembg', 'grabcut', 'ai'] as RemovalMethod[]).map((method) => (
+            {(['rembg', 'grabcut', 'ai'] as RemovalMethod[]).map(method => (
               <button
                 key={method}
                 onClick={() => setSelectedMethod(method)}
@@ -124,12 +119,8 @@ const BackgroundRemovalModal: React.FC<BackgroundRemovalModalProps> = ({
                     : 'border-gray-200 hover:border-gray-300'
                 } disabled:opacity-50`}
               >
-                <div className="text-xs font-medium mb-1">
-                  {method.toUpperCase()}
-                </div>
-                <div className="text-xs">
-                  {method === selectedMethod ? '선택됨' : '선택'}
-                </div>
+                <div className="text-xs font-medium mb-1">{method.toUpperCase()}</div>
+                <div className="text-xs">{method === selectedMethod ? '선택됨' : '선택'}</div>
               </button>
             ))}
           </div>

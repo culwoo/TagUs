@@ -23,7 +23,7 @@ const BottomNavBar: React.FC<BottomNavBarProps> = ({ activeTab, onNavigate, onAd
   const [pendingImage, setPendingImage] = useState<PendingImage | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { showToast } = useToast();
-  const userId = useAuthStore((state) => state.user?.uid);
+  const userId = useAuthStore(state => state.user?.uid);
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -48,7 +48,11 @@ const BottomNavBar: React.FC<BottomNavBarProps> = ({ activeTab, onNavigate, onAd
     }
   };
 
-  const handleRegistrationComplete = async (itemName: string, processedImageBase64: string | null, useOriginal: boolean) => {
+  const handleRegistrationComplete = async (
+    itemName: string,
+    processedImageBase64: string | null,
+    useOriginal: boolean
+  ) => {
     if (!pendingImage) return;
 
     try {
@@ -147,17 +151,33 @@ const BottomNavBar: React.FC<BottomNavBarProps> = ({ activeTab, onNavigate, onAd
         />
 
         <div className="h-full px-7 pb-[max(10px,env(safe-area-inset-bottom))] pt-4 flex items-end justify-between">
-          <button onClick={() => onNavigate('home')} aria-label="홈" className={tabButtonClass('home')}>
+          <button
+            onClick={() => onNavigate('home')}
+            aria-label="홈"
+            className={tabButtonClass('home')}
+          >
             <Home size={20} />
           </button>
-          <button onClick={() => onNavigate('chat')} aria-label="채팅" className={tabButtonClass('chat')}>
+          <button
+            onClick={() => onNavigate('chat')}
+            aria-label="채팅"
+            className={tabButtonClass('chat')}
+          >
             <MessageCircle size={20} />
           </button>
           <div className="w-[60px]" />
-          <button onClick={() => onNavigate('map')} aria-label="지도" className={tabButtonClass('map')}>
+          <button
+            onClick={() => onNavigate('map')}
+            aria-label="지도"
+            className={tabButtonClass('map')}
+          >
             <MapPin size={20} />
           </button>
-          <button onClick={() => onNavigate('profile')} aria-label="프로필" className={tabButtonClass('profile')}>
+          <button
+            onClick={() => onNavigate('profile')}
+            aria-label="프로필"
+            className={tabButtonClass('profile')}
+          >
             <User size={20} />
           </button>
         </div>
@@ -170,7 +190,11 @@ const BottomNavBar: React.FC<BottomNavBarProps> = ({ activeTab, onNavigate, onAd
           aria-busy={isProcessing}
         >
           <span className="w-[46px] h-[46px] rounded-full neumorphic-button flex items-center justify-center">
-            {isProcessing ? <Loader2 size={22} className="animate-spin text-[#254179]" /> : <Plus size={24} className="text-[#254179]" />}
+            {isProcessing ? (
+              <Loader2 size={22} className="animate-spin text-[#254179]" />
+            ) : (
+              <Plus size={24} className="text-[#254179]" />
+            )}
           </span>
         </button>
       </nav>

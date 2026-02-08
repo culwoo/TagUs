@@ -28,16 +28,16 @@ const MemoizedProfileScreen = memo(ProfileScreen);
 const MemoizedBottomNavBar = memo(BottomNavBar);
 
 function App() {
-  const items = useItemsStore((state) => state.items);
-  const addItem = useItemsStore((state) => state.addItem);
-  const removeItem = useItemsStore((state) => state.removeItem);
-  const updateItemName = useItemsStore((state) => state.updateItemName);
-  const updateItemImage = useItemsStore((state) => state.updateItemImage);
-  const updateItemLocation = useItemsStore((state) => state.updateItemLocation);
-  const updateItemStatus = useItemsStore((state) => state.updateItemStatus);
+  const items = useItemsStore(state => state.items);
+  const addItem = useItemsStore(state => state.addItem);
+  const removeItem = useItemsStore(state => state.removeItem);
+  const updateItemName = useItemsStore(state => state.updateItemName);
+  const updateItemImage = useItemsStore(state => state.updateItemImage);
+  const updateItemLocation = useItemsStore(state => state.updateItemLocation);
+  const updateItemStatus = useItemsStore(state => state.updateItemStatus);
 
-  const status = useAuthStore((state) => state.status);
-  const user = useAuthStore((state) => state.user);
+  const status = useAuthStore(state => state.status);
+  const user = useAuthStore(state => state.user);
 
   const [activeTab, setActiveTab] = useState<AppTab>('home');
 
@@ -81,7 +81,11 @@ function App() {
         <MobileLayout>
           <Suspense fallback={<LoadingSpinner />}>
             {renderScreen()}
-            <MemoizedBottomNavBar activeTab={activeTab} onNavigate={setActiveTab} onAddItem={addItem} />
+            <MemoizedBottomNavBar
+              activeTab={activeTab}
+              onNavigate={setActiveTab}
+              onAddItem={addItem}
+            />
           </Suspense>
         </MobileLayout>
       )}

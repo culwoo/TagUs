@@ -1,6 +1,10 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { notificationService, type AppNotification, type NotificationType } from '../firebase/notifications';
+import {
+  notificationService,
+  type AppNotification,
+  type NotificationType,
+} from '../firebase/notifications';
 import { useAuthStore } from './authStore';
 
 interface NotificationStore {
@@ -19,7 +23,7 @@ export const useNotificationStore = create<NotificationStore>()(
   persist(
     (set, get) => ({
       notifications: [],
-      setNotifications: (notifications) => set({ notifications }),
+      setNotifications: notifications => set({ notifications }),
       addNotification: async (title, message, type = 'info') => {
         const notification: AppNotification = {
           id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
@@ -30,21 +34,21 @@ export const useNotificationStore = create<NotificationStore>()(
           createdAt: Date.now(),
         };
 
-        set((state) => ({ notifications: [notification, ...state.notifications] }));
+        set(state => ({ notifications: [notification, ...state.notifications] }));
 
         const userId = getUserId();
         if (userId) {
           await notificationService.saveNotification(userId, notification);
         }
       },
-      markAsRead: async (notificationId) => {
-        const target = get().notifications.find((notification) => notification.id === notificationId);
+      markAsRead: async notificationId => {
+        const target = get().notifications.find(notification => notification.id === notificationId);
         if (!target || target.isRead) {
           return;
         }
 
-        set((state) => ({
-          notifications: state.notifications.map((notification) =>
+        set(state => ({
+          notifications: state.notifications.map(notification =>
             notification.id === notificationId ? { ...notification, isRead: true } : notification
           ),
         }));
@@ -54,15 +58,19 @@ export const useNotificationStore = create<NotificationStore>()(
           await notificationService.markAsRead(userId, notificationId);
         }
       },
-      deleteNotification: async (notificationId) => {
+      deleteNotification: async notificationId => {
         const previousNotifications = get().notifications;
-        const target = previousNotifications.find((notification) => notification.id === notificationId);
+        const target = previousNotifications.find(
+          notification => notification.id === notificationId
+        );
         if (!target) {
           return;
         }
 
-        set((state) => ({
-          notifications: state.notifications.filter((notification) => notification.id !== notificationId),
+        set(state => ({
+          notifications: state.notifications.filter(
+            notification => notification.id !== notificationId
+          ),
         }));
 
         try {

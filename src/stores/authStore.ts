@@ -17,10 +17,10 @@ interface AuthStore {
   reset: () => void;
 }
 
-export const useAuthStore = create<AuthStore>((set) => ({
+export const useAuthStore = create<AuthStore>(set => ({
   status: 'loading',
   user: null,
-  setUser: (user) => set({ user, status: user ? 'signedIn' : 'signedOut' }),
-  setStatus: (status) => set({ status }),
+  setUser: user => set({ user, status: user ? 'signedIn' : 'signedOut' }),
+  setStatus: status => set({ status }),
   reset: () => set({ status: 'signedOut', user: null }),
 }));

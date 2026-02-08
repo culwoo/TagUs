@@ -1,14 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       fontFamily: {
-        'sf-pro': ['SF Pro Display', '-apple-system', 'system-ui', 'BlinkMacSystemFont', 'sans-serif'],
-        'pretendard': ['Poppins', 'Pretendard', 'sans-serif'],
+        'sf-pro': [
+          'SF Pro Display',
+          '-apple-system',
+          'system-ui',
+          'BlinkMacSystemFont',
+          'sans-serif',
+        ],
+        pretendard: ['Poppins', 'Pretendard', 'sans-serif'],
       },
       colors: {
         primary: {
@@ -27,20 +30,20 @@ export default {
         info: '#2196F3',
       },
       boxShadow: {
-        'floating': '0 10px 25px rgba(0,0,0,0.1)',
-        'glow': '0 0 0 3px rgba(0, 122, 255, 0.1)',
+        floating: '0 10px 25px rgba(0,0,0,0.1)',
+        glow: '0 0 0 3px rgba(0, 122, 255, 0.1)',
       },
       animation: {
         'slide-in': 'slideIn 0.3s ease-out',
-        'spin': 'spin 1s linear infinite',
+        spin: 'spin 1s linear infinite',
       },
       keyframes: {
         slideIn: {
-          'from': {
+          from: {
             transform: 'translateY(20px)',
             opacity: '0',
           },
-          'to': {
+          to: {
             transform: 'translateY(0)',
             opacity: '1',
           },
@@ -49,4 +52,4 @@ export default {
     },
   },
   plugins: [],
-}
+};

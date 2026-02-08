@@ -7,7 +7,7 @@ import { useNotificationStore } from '../../stores/notificationStore';
 
 const MemoSection: React.FC = () => {
   const { memo, setMemo } = useMemoStore();
-  const userId = useAuthStore((state) => state.user?.uid);
+  const userId = useAuthStore(state => state.user?.uid);
   const [isSaving, setIsSaving] = useState(false);
   const isInitial = useRef(true);
   const saveTimeoutRef = useRef<number | null>(null);
@@ -56,9 +56,7 @@ const MemoSection: React.FC = () => {
     <div className="px-[38px] mt-8 mb-8">
       <div className="neumorphic-card rounded-[25px] p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-[20px] font-bold text-[#202020] leading-[24px]">
-            나의 메모장
-          </h2>
+          <h2 className="text-[20px] font-bold text-[#202020] leading-[24px]">나의 메모장</h2>
           {userId && (
             <span className="text-[10px] text-[#737373]">
               {isSaving ? '저장 중...' : '동기화 완료'}

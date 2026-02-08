@@ -32,16 +32,19 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     setToasts(prev => prev.filter(toast => toast.id !== id));
   }, []);
 
-  const showToast = useCallback((message: string, type: ToastType = 'info', duration: number = 3000) => {
-    const id = Date.now();
-    setToasts(prev => [...prev, { id, message, type, duration }]);
+  const showToast = useCallback(
+    (message: string, type: ToastType = 'info', duration: number = 3000) => {
+      const id = Date.now();
+      setToasts(prev => [...prev, { id, message, type, duration }]);
 
-    if (duration > 0) {
-      setTimeout(() => {
-        removeToast(id);
-      }, duration);
-    }
-  }, [removeToast]);
+      if (duration > 0) {
+        setTimeout(() => {
+          removeToast(id);
+        }, duration);
+      }
+    },
+    [removeToast]
+  );
 
   return (
     <ToastContext.Provider value={{ toasts, showToast, removeToast }}>
@@ -53,7 +56,7 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
 const ToastContainer: React.FC<{ toasts: Toast[]; removeToast: (id: number) => void }> = ({
   toasts,
-  removeToast
+  removeToast,
 }) => {
   const getToastColor = (type: ToastType) => {
     switch (type) {
@@ -70,21 +73,23 @@ const ToastContainer: React.FC<{ toasts: Toast[]; removeToast: (id: number) => v
   };
 
   return (
-    <div style={{
-      position: 'fixed',
-      bottom: '120px',
-      left: '50%',
-      transform: 'translateX(-50%)',
-      zIndex: 1000,
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '12px',
-      alignItems: 'center',
-      width: '100%',
-      maxWidth: '393px',
-      padding: '0 20px',
-      pointerEvents: 'none'
-    }}>
+    <div
+      style={{
+        position: 'fixed',
+        bottom: '120px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 1000,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '12px',
+        alignItems: 'center',
+        width: '100%',
+        maxWidth: '393px',
+        padding: '0 20px',
+        pointerEvents: 'none',
+      }}
+    >
       {toasts.map(toast => (
         <div
           key={toast.id}
@@ -105,7 +110,7 @@ const ToastContainer: React.FC<{ toasts: Toast[]; removeToast: (id: number) => v
             justifyContent: 'space-between',
             gap: '12px',
             minWidth: '220px',
-            maxWidth: '100%'
+            maxWidth: '100%',
           }}
         >
           <span>{toast.message}</span>
@@ -124,7 +129,7 @@ const ToastContainer: React.FC<{ toasts: Toast[]; removeToast: (id: number) => v
               alignItems: 'center',
               width: '24px',
               height: '24px',
-              borderRadius: '50%'
+              borderRadius: '50%',
             }}
             aria-label="Close notification"
           >

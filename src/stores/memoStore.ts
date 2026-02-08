@@ -8,9 +8,9 @@ interface MemoStore {
 
 export const useMemoStore = create<MemoStore>()(
   persist(
-    (set) => ({
+    set => ({
       memo: '',
-      setMemo: (memo) => set({ memo }),
+      setMemo: memo => set({ memo }),
     }),
     {
       name: 'tagus-memo-storage',

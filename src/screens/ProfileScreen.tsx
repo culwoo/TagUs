@@ -5,7 +5,7 @@ import { useToast } from '../contexts/ToastContext';
 import { useActivityStore } from '../stores/activityStore';
 
 const ProfileScreen: React.FC = () => {
-  const user = useAuthStore((state) => state.user);
+  const user = useAuthStore(state => state.user);
   const { showToast } = useToast();
 
   const handleSignOut = async () => {
@@ -31,7 +31,11 @@ const ProfileScreen: React.FC = () => {
           <div className="flex items-center gap-4">
             {user?.photoURL ? (
               <div className="w-16 h-16 rounded-full neumorphic-pressed p-1">
-                <img src={user.photoURL} alt={user.displayName ?? 'user'} className="w-full h-full rounded-full" />
+                <img
+                  src={user.photoURL}
+                  alt={user.displayName ?? 'user'}
+                  className="w-full h-full rounded-full"
+                />
               </div>
             ) : (
               <div className="w-16 h-16 rounded-full neumorphic-pressed flex items-center justify-center text-[#254179] font-bold text-xl">
@@ -39,7 +43,9 @@ const ProfileScreen: React.FC = () => {
               </div>
             )}
             <div>
-              <p className="text-lg font-semibold text-[#202020]">{user?.displayName ?? '사용자'}</p>
+              <p className="text-lg font-semibold text-[#202020]">
+                {user?.displayName ?? '사용자'}
+              </p>
               <p className="text-sm text-[#737373]">{user?.email ?? '이메일 없음'}</p>
             </div>
           </div>

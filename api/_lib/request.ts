@@ -2,7 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 const allowedOrigins = (process.env.FRONTEND_URL || 'http://localhost:5173')
   .split(',')
-  .map((origin) => origin.trim())
+  .map(origin => origin.trim())
   .filter(Boolean);
 
 const getHeaderValue = (header: string | string[] | undefined): string | undefined =>
@@ -54,14 +54,18 @@ export const applyCors = (req: VercelRequest, res: VercelResponse): boolean => {
 
 export const requireAuth = async (req: VercelRequest, res: VercelResponse): Promise<boolean> => {
   const hasFirebaseAdminCredentials = Boolean(
-    process.env.FIREBASE_PROJECT_ID && process.env.FIREBASE_CLIENT_EMAIL && process.env.FIREBASE_PRIVATE_KEY
+    process.env.FIREBASE_PROJECT_ID &&
+    process.env.FIREBASE_CLIENT_EMAIL &&
+    process.env.FIREBASE_PRIVATE_KEY
   );
 
   // Allow authenticated app traffic even when Firebase Admin credentials are missing in deployment.
   if (!hasFirebaseAdminCredentials) {
     const authHeader = req.headers.authorization;
     if (!authHeader?.startsWith('Bearer ') || !authHeader.slice('Bearer '.length).trim()) {
-      res.status(401).json({ success: false, error: 'Unauthorized', details: 'Missing Bearer token' });
+      res
+        .status(401)
+        .json({ success: false, error: 'Unauthorized', details: 'Missing Bearer token' });
       return false;
     }
     return true;

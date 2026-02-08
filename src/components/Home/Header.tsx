@@ -27,21 +27,15 @@ const Header: React.FC<HeaderProps> = ({ onOpenNotifications, selectedItem }) =>
       <div className="flex flex-col items-center gap-[13px]">
         {/* Location Pin Icon */}
         <img src="/icons/location-pin.svg" alt="" className="w-[12px] h-[23px]" />
-        
+
         {/* Location Name */}
-        <span className="text-[14px] font-semibold text-[#202020]">
-          {locationLabel}
-        </span>
+        <span className="text-[14px] font-semibold text-[#202020]">{locationLabel}</span>
 
         {/* Station Info */}
         <div className="flex flex-col items-center gap-[5px]">
-          <h1 className="text-[20px] font-bold text-[#202020] m-0 leading-[24px]">
-            {station}
-          </h1>
+          <h1 className="text-[20px] font-bold text-[#202020] m-0 leading-[24px]">{station}</h1>
 
-          <span className="text-[14px] text-[#737373] font-normal leading-[17px]">
-            {boxNumber}
-          </span>
+          <span className="text-[14px] text-[#737373] font-normal leading-[17px]">{boxNumber}</span>
         </div>
       </div>
     </header>

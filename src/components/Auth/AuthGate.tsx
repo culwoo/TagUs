@@ -7,7 +7,7 @@ import { useActivityStore } from '../../stores/activityStore';
 const AuthGate = () => {
   const [isSigningIn, setIsSigningIn] = useState(false);
   const { showToast } = useToast();
-  const status = useAuthStore((state) => state.status);
+  const status = useAuthStore(state => state.status);
 
   const handleSignIn = async () => {
     try {

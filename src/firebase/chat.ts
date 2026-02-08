@@ -23,7 +23,7 @@ export const chatService = {
     const ref = collection(db, `users/${userId}/chatThreads`);
     const snapshot = await getDocs(ref);
     return snapshot.docs
-      .map((docSnapshot) => docSnapshot.data() as ChatThread)
+      .map(docSnapshot => docSnapshot.data() as ChatThread)
       .sort((a, b) => b.updatedAt - a.updatedAt);
   },
 

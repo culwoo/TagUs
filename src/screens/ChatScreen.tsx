@@ -4,7 +4,7 @@ import { useChatStore } from '../stores/chatStore';
 import EmptyState from '../components/common/EmptyState';
 
 const ChatScreen: React.FC = () => {
-  const threads = useChatStore((state) => state.threads);
+  const threads = useChatStore(state => state.threads);
 
   if (threads.length === 0) {
     return (
@@ -23,15 +23,19 @@ const ChatScreen: React.FC = () => {
       <div className="px-6 pb-6">
         <div className="neumorphic-card rounded-[25px] p-6">
           <h2 className="text-2xl font-bold text-[#202020]">채팅</h2>
-          <p className="text-sm text-[#737373] mt-1">찾아준 사람과의 1:1 대화가 이곳에 표시됩니다.</p>
+          <p className="text-sm text-[#737373] mt-1">
+            찾아준 사람과의 1:1 대화가 이곳에 표시됩니다.
+          </p>
         </div>
       </div>
       <div className="px-6 space-y-4">
-        {threads.map((thread) => (
+        {threads.map(thread => (
           <div key={thread.id} className="neumorphic-card rounded-[20px] p-5">
             <p className="text-base font-semibold text-[#202020]">{thread.title}</p>
             <p className="text-sm text-[#6B7280] mt-1">{thread.preview}</p>
-            <p className="text-xs text-[#9CA3AF] mt-3">최근 업데이트: {new Date(thread.updatedAt).toLocaleString()}</p>
+            <p className="text-xs text-[#9CA3AF] mt-3">
+              최근 업데이트: {new Date(thread.updatedAt).toLocaleString()}
+            </p>
           </div>
         ))}
       </div>

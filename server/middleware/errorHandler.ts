@@ -1,14 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 
 export const errorHandler = (err: any, req: Request, res: Response, _next: NextFunction) => {
-    console.error('Unhandled Error:', err);
+  console.error('Unhandled Error:', err);
 
-    const statusCode = err.status || 500;
-    const message = err.message || 'Internal Server Error';
+  const statusCode = err.status || 500;
+  const message = err.message || 'Internal Server Error';
 
-    res.status(statusCode).json({
-        success: false,
-        error: message,
-        details: process.env.NODE_ENV === 'development' ? err.stack : undefined,
-    });
+  res.status(statusCode).json({
+    success: false,
+    error: message,
+    details: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+  });
 };

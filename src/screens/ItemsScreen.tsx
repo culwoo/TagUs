@@ -9,7 +9,12 @@ interface ItemsScreenProps {
   onRemoveItem: (itemId: number) => Promise<void>;
 }
 
-const ItemsScreen: React.FC<ItemsScreenProps> = ({ items, onUpdateItemName, onUpdateItemImage, onRemoveItem }) => {
+const ItemsScreen: React.FC<ItemsScreenProps> = ({
+  items,
+  onUpdateItemName,
+  onUpdateItemImage,
+  onRemoveItem,
+}) => {
   return (
     <div className="pb-12 pt-6">
       <div className="px-6 pb-6">
@@ -18,7 +23,12 @@ const ItemsScreen: React.FC<ItemsScreenProps> = ({ items, onUpdateItemName, onUp
           <p className="text-sm text-[#737373] mt-1">등록된 분실물과 메모를 한눈에 확인하세요.</p>
         </div>
       </div>
-      <ItemsList items={items} onUpdateItemName={onUpdateItemName} onUpdateItemImage={onUpdateItemImage} onRemoveItem={onRemoveItem} />
+      <ItemsList
+        items={items}
+        onUpdateItemName={onUpdateItemName}
+        onUpdateItemImage={onUpdateItemImage}
+        onRemoveItem={onRemoveItem}
+      />
     </div>
   );
 };

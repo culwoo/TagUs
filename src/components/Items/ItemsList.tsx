@@ -15,7 +15,12 @@ interface ItemsListProps {
   onRemoveItem: (itemId: number) => Promise<void>;
 }
 
-const ItemsList: React.FC<ItemsListProps> = ({ items, onUpdateItemName, onUpdateItemImage, onRemoveItem }) => {
+const ItemsList: React.FC<ItemsListProps> = ({
+  items,
+  onUpdateItemName,
+  onUpdateItemImage,
+  onRemoveItem,
+}) => {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editValue, setEditValue] = useState('');
   const [isSaving, setIsSaving] = useState(false);
@@ -23,13 +28,13 @@ const ItemsList: React.FC<ItemsListProps> = ({ items, onUpdateItemName, onUpdate
   const [deleteTarget, setDeleteTarget] = useState<Item | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const { showToast } = useToast();
-  const userId = useAuthStore((state) => state.user?.uid);
+  const userId = useAuthStore(state => state.user?.uid);
 
   // 검색 필터링
   const filteredItems = useMemo(() => {
     if (!searchQuery.trim()) return items;
     const query = searchQuery.toLowerCase();
-    return items.filter((item) => item.name.toLowerCase().includes(query));
+    return items.filter(item => item.name.toLowerCase().includes(query));
   }, [items, searchQuery]);
 
   const handleEditClick = (item: Item) => {
@@ -120,7 +125,7 @@ const ItemsList: React.FC<ItemsListProps> = ({ items, onUpdateItemName, onUpdate
             <input
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={e => setSearchQuery(e.target.value)}
               placeholder="아이템 검색..."
               className="w-full neumorphic-input border-none rounded-xl pl-11 pr-4 py-3 text-[#202020] text-sm outline-none"
             />
@@ -147,20 +152,24 @@ const ItemsList: React.FC<ItemsListProps> = ({ items, onUpdateItemName, onUpdate
 
       {/* 아이템 목록 */}
       <div className="space-y-5 px-6 pb-6">
-        {filteredItems.map((item) => (
+        {filteredItems.map(item => (
           <div key={item.id} className="neumorphic-card rounded-[20px] p-5">
             <div className="flex items-start gap-4">
               <div className="w-20 h-20 rounded-xl neumorphic-pressed p-1">
-                <img src={item.image} alt={item.name} className="w-full h-full rounded-lg object-cover" />
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-full h-full rounded-lg object-cover"
+                />
               </div>
               <div className="flex-1">
                 {editingId === item.id ? (
                   <div className="flex items-center gap-2">
                     <input
                       value={editValue}
-                      onChange={(event) => setEditValue(event.target.value)}
+                      onChange={event => setEditValue(event.target.value)}
                       maxLength={MAX_ITEM_NAME_LENGTH}
-                      onKeyDown={(e) => {
+                      onKeyDown={e => {
                         if (e.key === 'Enter') handleSave(item.id);
                         if (e.key === 'Escape') setEditingId(null);
                       }}
@@ -203,7 +212,7 @@ const ItemsList: React.FC<ItemsListProps> = ({ items, onUpdateItemName, onUpdate
                       type="file"
                       className="hidden"
                       accept="image/*"
-                      onChange={(event) => {
+                      onChange={event => {
                         const file = event.target.files?.[0];
                         if (file) {
                           handleImageChange(item.id, file);

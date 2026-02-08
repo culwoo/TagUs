@@ -11,7 +11,7 @@ const mapUser = (user: User): AuthUser => ({
 
 export const authService = {
   subscribe: (callback: (user: AuthUser | null) => void) =>
-    onAuthStateChanged(auth, (user) => callback(user ? mapUser(user) : null)),
+    onAuthStateChanged(auth, user => callback(user ? mapUser(user) : null)),
   signInWithGoogle: () => signInWithPopup(auth, googleProvider),
   signOut: () => signOut(auth),
 };

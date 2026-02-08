@@ -8,7 +8,7 @@ import { useActivityStore } from '../stores/activityStore';
 const LocationScreen: React.FC = () => {
   const { location, setLocation } = useLocationStore();
   const [draft, setDraft] = useState(location);
-  const userId = useAuthStore((state) => state.user?.uid);
+  const userId = useAuthStore(state => state.user?.uid);
   const { showToast } = useToast();
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const LocationScreen: React.FC = () => {
           <label className="text-xs font-semibold text-[#737373] block mb-3">현재 위치 이름</label>
           <input
             value={draft.name}
-            onChange={(event) => setDraft({ ...draft, name: event.target.value })}
+            onChange={event => setDraft({ ...draft, name: event.target.value })}
             className="w-full neumorphic-input border-none rounded-xl px-4 py-3 text-[#202020] outline-none"
           />
         </div>
@@ -50,7 +50,7 @@ const LocationScreen: React.FC = () => {
           <label className="text-xs font-semibold text-[#737373] block mb-3">역명</label>
           <input
             value={draft.station}
-            onChange={(event) => setDraft({ ...draft, station: event.target.value })}
+            onChange={event => setDraft({ ...draft, station: event.target.value })}
             className="w-full neumorphic-input border-none rounded-xl px-4 py-3 text-[#202020] outline-none"
           />
         </div>
@@ -58,7 +58,7 @@ const LocationScreen: React.FC = () => {
           <label className="text-xs font-semibold text-[#737373] block mb-3">보관함 번호</label>
           <input
             value={draft.boxNumber}
-            onChange={(event) => setDraft({ ...draft, boxNumber: event.target.value })}
+            onChange={event => setDraft({ ...draft, boxNumber: event.target.value })}
             className="w-full neumorphic-input border-none rounded-xl px-4 py-3 text-[#202020] outline-none"
           />
         </div>

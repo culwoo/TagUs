@@ -16,7 +16,7 @@ export const itemService = {
     const itemsRef = collection(db, `users/${userId}/items`);
     const snapshot = await getDocs(itemsRef);
 
-    return snapshot.docs.map((docSnapshot) => {
+    return snapshot.docs.map(docSnapshot => {
       const data = docSnapshot.data() as FirestoreItem;
       return normalizeItem({
         id: data.id ?? Number(docSnapshot.id),
@@ -65,7 +65,10 @@ export const itemService = {
   },
 
   // Upload image
-  async uploadImage(userId: string, file: File): Promise<{ downloadUrl: string; storagePath: string }> {
+  async uploadImage(
+    userId: string,
+    file: File
+  ): Promise<{ downloadUrl: string; storagePath: string }> {
     const fileName = `${Date.now()}-${file.name}`;
     const storagePath = `items/${userId}/${fileName}`;
     const storageRef = ref(storage, storagePath);

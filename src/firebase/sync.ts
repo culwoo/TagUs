@@ -41,7 +41,7 @@ const migrateUserSchemaV2 = async (userId: string) => {
   const batch = writeBatch(db);
   let hasUpdates = false;
 
-  snapshot.docs.forEach((itemDoc) => {
+  snapshot.docs.forEach(itemDoc => {
     const data = itemDoc.data() as Partial<Item>;
     const needsMigration = !data.location || !data.status || !data.createdAt || !data.updatedAt;
     if (!needsMigration) {
@@ -87,13 +87,14 @@ export const hydrateUserData = async (userId: string) => {
 
   await migrateUserSchemaV2(userId);
 
-  const [remoteItems, remoteMemo, remoteLocation, remoteNotifications, remoteThreads] = await Promise.all([
-    itemService.getItems(userId),
-    memoService.getMemo(userId),
-    locationService.getLocation(userId),
-    notificationService.getNotifications(userId),
-    chatService.getThreads(userId),
-  ]);
+  const [remoteItems, remoteMemo, remoteLocation, remoteNotifications, remoteThreads] =
+    await Promise.all([
+      itemService.getItems(userId),
+      memoService.getMemo(userId),
+      locationService.getLocation(userId),
+      notificationService.getNotifications(userId),
+      chatService.getThreads(userId),
+    ]);
 
   if (remoteItems.length > 0) {
     useItemsStore.getState().setItems(remoteItems);
@@ -105,8 +106,10 @@ export const hydrateUserData = async (userId: string) => {
       updatedAt: remoteLocation.location.updatedAt,
     };
 
-    const normalizedLocalItems = itemsStore.items.map((item) => normalizeItem(item, fallbackLocation));
-    await Promise.all(normalizedLocalItems.map((item) => itemService.addItem(userId, item)));
+    const normalizedLocalItems = itemsStore.items.map(item =>
+      normalizeItem(item, fallbackLocation)
+    );
+    await Promise.all(normalizedLocalItems.map(item => itemService.addItem(userId, item)));
     useItemsStore.getState().setItems(normalizedLocalItems);
   }
 
@@ -128,7 +131,7 @@ export const hydrateUserData = async (userId: string) => {
   void useNotificationStore
     .getState()
     .addNotification('동기화 완료', '클라우드 데이터 동기화가 완료되었습니다.', 'success')
-    .catch((error) => console.error('Failed to add sync notification:', error));
+    .catch(error => console.error('Failed to add sync notification:', error));
 
   useActivityStore.getState().addActivity('auth.signin', '클라우드 동기화 완료');
 };

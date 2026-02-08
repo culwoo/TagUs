@@ -9,7 +9,7 @@ const AuthBootstrap = () => {
   useEffect(() => {
     let isActive = true;
 
-    const unsubscribe = authService.subscribe(async (user) => {
+    const unsubscribe = authService.subscribe(async user => {
       if (!isActive) {
         return;
       }

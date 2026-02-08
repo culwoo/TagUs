@@ -14,13 +14,13 @@ interface LocationStore {
 
 export const useLocationStore = create<LocationStore>()(
   persist(
-    (set) => ({
+    set => ({
       location: {
         name: '현재위치',
         station: '서울역 4호선',
         boxNumber: '분실물 보관함 230번',
       },
-      setLocation: (location) => set({ location }),
+      setLocation: location => set({ location }),
     }),
     {
       name: 'tagus-location-storage',

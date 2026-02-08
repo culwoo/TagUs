@@ -23,13 +23,20 @@ const statusLabel: Record<ItemStatus, string> = {
   found: '찾음',
 };
 
-const MapScreen: React.FC<MapScreenProps> = ({ items, onUpdateItemLocation, onUpdateItemStatus }) => {
+const MapScreen: React.FC<MapScreenProps> = ({
+  items,
+  onUpdateItemLocation,
+  onUpdateItemStatus,
+}) => {
   const [drafts, setDrafts] = React.useState<Record<number, ItemLocation>>({});
   const [savingId, setSavingId] = React.useState<number | null>(null);
   const [activeIndex, setActiveIndex] = React.useState(0);
   const swiperRef = React.useRef<SwiperType | null>(null);
   const { showToast } = useToast();
-  const locationById = React.useMemo(() => new Map(items.map((item) => [item.id, item.location])), [items]);
+  const locationById = React.useMemo(
+    () => new Map(items.map(item => [item.id, item.location])),
+    [items]
+  );
 
   React.useEffect(() => {
     if (items.length === 0) {
@@ -43,14 +50,18 @@ const MapScreen: React.FC<MapScreenProps> = ({ items, onUpdateItemLocation, onUp
   }, [activeIndex, items.length]);
 
   const activeItem = items[activeIndex] ?? items[0];
-  const activeDraft =
-    activeItem && (drafts[activeItem.id] ?? activeItem.location);
+  const activeDraft = activeItem && (drafts[activeItem.id] ?? activeItem.location);
 
   const updateDraft = (itemId: number, patch: Partial<ItemLocation>) => {
-    setDrafts((prev) => ({
+    setDrafts(prev => ({
       ...prev,
       [itemId]: {
-        ...(locationById.get(itemId) ?? { label: '미지정', station: '', boxNumber: '', updatedAt: Date.now() }),
+        ...(locationById.get(itemId) ?? {
+          label: '미지정',
+          station: '',
+          boxNumber: '',
+          updatedAt: Date.now(),
+        }),
         ...(prev[itemId] ?? {}),
         ...patch,
       },
@@ -69,7 +80,9 @@ const MapScreen: React.FC<MapScreenProps> = ({ items, onUpdateItemLocation, onUp
 
     try {
       await onUpdateItemLocation(item.id, locationPayload);
-      await useNotificationStore.getState().addNotification('위치 업데이트', `"${item.name}" 위치가 저장되었습니다.`, 'success');
+      await useNotificationStore
+        .getState()
+        .addNotification('위치 업데이트', `"${item.name}" 위치가 저장되었습니다.`, 'success');
       showToast('아이템 위치를 저장했습니다', 'success');
     } catch (error) {
       console.error('Location update failed:', error);
@@ -82,7 +95,13 @@ const MapScreen: React.FC<MapScreenProps> = ({ items, onUpdateItemLocation, onUp
   const updateStatus = async (item: Item, status: ItemStatus) => {
     try {
       await onUpdateItemStatus(item.id, status);
-      await useNotificationStore.getState().addNotification('상태 변경', `"${item.name}" 상태가 ${statusLabel[status]}(으)로 변경되었습니다.`, 'info');
+      await useNotificationStore
+        .getState()
+        .addNotification(
+          '상태 변경',
+          `"${item.name}" 상태가 ${statusLabel[status]}(으)로 변경되었습니다.`,
+          'info'
+        );
       showToast(`상태를 ${statusLabel[status]}로 변경했습니다`, 'info');
     } catch (error) {
       console.error('Status update failed:', error);
@@ -97,7 +116,11 @@ const MapScreen: React.FC<MapScreenProps> = ({ items, onUpdateItemLocation, onUp
   if (items.length === 0) {
     return (
       <div className="pt-8">
-        <EmptyState title="아이템이 없습니다" description="+ 버튼으로 물건을 등록하면 위치를 기록할 수 있습니다." icon={<MapPin size={38} />} />
+        <EmptyState
+          title="아이템이 없습니다"
+          description="+ 버튼으로 물건을 등록하면 위치를 기록할 수 있습니다."
+          icon={<MapPin size={38} />}
+        />
       </div>
     );
   }
@@ -113,7 +136,7 @@ const MapScreen: React.FC<MapScreenProps> = ({ items, onUpdateItemLocation, onUp
 
       <div className="px-6">
         <Swiper
-          onSwiper={(swiper) => {
+          onSwiper={swiper => {
             swiperRef.current = swiper;
           }}
           spaceBetween={20}
@@ -130,20 +153,29 @@ const MapScreen: React.FC<MapScreenProps> = ({ items, onUpdateItemLocation, onUp
             touchAction: 'pan-y',
           }}
         >
-          {items.map((item) => (
+          {items.map(item => (
             <SwiperSlide key={item.id} style={{ overflow: 'visible' }}>
               <div className="flex flex-col items-center justify-center">
                 <div
                   className="w-[240px] h-[240px] rounded-[24px] flex items-center justify-center mx-auto overflow-hidden"
                   style={{
                     background: '#DEE8F4',
-                    boxShadow: '12px 12px 24px rgba(163, 177, 198, 0.5), -12px -12px 24px rgba(255, 255, 255, 0.7)',
+                    boxShadow:
+                      '12px 12px 24px rgba(163, 177, 198, 0.5), -12px -12px 24px rgba(255, 255, 255, 0.7)',
                   }}
                 >
-                  <img src={item.image} alt={item.name} loading="lazy" className="w-full h-full object-contain p-4" />
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    loading="lazy"
+                    className="w-full h-full object-contain p-4"
+                  />
                 </div>
                 <div className="mt-5 text-center">
-                  <p className="text-[22px] font-bold text-[#202020] leading-[1.2] max-w-[260px] truncate" title={item.name}>
+                  <p
+                    className="text-[22px] font-bold text-[#202020] leading-[1.2] max-w-[260px] truncate"
+                    title={item.name}
+                  >
                     {item.name}
                   </p>
                   <p className="text-sm text-[#737373] mt-1">{statusLabel[item.status]}</p>
@@ -181,18 +213,19 @@ const MapScreen: React.FC<MapScreenProps> = ({ items, onUpdateItemLocation, onUp
             />
           ))}
         </div>
-
       </div>
 
       {activeItem && activeDraft && (
         <div className="px-6 mt-5">
           <div className="neumorphic-card rounded-[24px] p-5">
             <div className="grid grid-cols-3 gap-2 mb-4">
-              {statuses.map((status) => (
+              {statuses.map(status => (
                 <button
                   key={status}
                   className={`py-2 rounded-lg text-xs font-semibold border-none ${
-                    activeItem.status === status ? 'neumorphic-pressed text-[#254179]' : 'neumorphic-button text-[#374151]'
+                    activeItem.status === status
+                      ? 'neumorphic-pressed text-[#254179]'
+                      : 'neumorphic-button text-[#374151]'
                   }`}
                   onClick={() => updateStatus(activeItem, status)}
                 >
@@ -204,19 +237,19 @@ const MapScreen: React.FC<MapScreenProps> = ({ items, onUpdateItemLocation, onUp
             <div className="space-y-3">
               <input
                 value={activeDraft.label}
-                onChange={(event) => updateDraft(activeItem.id, { label: event.target.value })}
+                onChange={event => updateDraft(activeItem.id, { label: event.target.value })}
                 placeholder="예: 회사 사물함"
                 className="w-full neumorphic-input border-none rounded-xl px-4 py-3 text-[#202020] outline-none"
               />
               <input
                 value={activeDraft.station}
-                onChange={(event) => updateDraft(activeItem.id, { station: event.target.value })}
+                onChange={event => updateDraft(activeItem.id, { station: event.target.value })}
                 placeholder="예: 서울역 1호선"
                 className="w-full neumorphic-input border-none rounded-xl px-4 py-3 text-[#202020] outline-none"
               />
               <input
                 value={activeDraft.boxNumber}
-                onChange={(event) => updateDraft(activeItem.id, { boxNumber: event.target.value })}
+                onChange={event => updateDraft(activeItem.id, { boxNumber: event.target.value })}
                 placeholder="예: 보관함 230번"
                 className="w-full neumorphic-input border-none rounded-xl px-4 py-3 text-[#202020] outline-none"
               />

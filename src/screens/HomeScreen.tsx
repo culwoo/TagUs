@@ -13,7 +13,12 @@ interface HomeScreenProps {
   onRemoveItem: (itemId: number) => Promise<void>;
 }
 
-const HomeScreen: React.FC<HomeScreenProps> = ({ items, onUpdateItemName, onUpdateItemImage, onRemoveItem }) => {
+const HomeScreen: React.FC<HomeScreenProps> = ({
+  items,
+  onUpdateItemName,
+  onUpdateItemImage,
+  onRemoveItem,
+}) => {
   const [isNotificationOpen, setIsNotificationOpen] = React.useState(false);
   const [selectedItemId, setSelectedItemId] = React.useState<number | null>(items[0]?.id ?? null);
 
@@ -24,12 +29,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ items, onUpdateItemName, onUpda
       return;
     }
 
-    if (selectedItemId === null || !items.some((item) => item.id === selectedItemId)) {
+    if (selectedItemId === null || !items.some(item => item.id === selectedItemId)) {
       setSelectedItemId(firstItem.id);
     }
   }, [items, selectedItemId]);
 
-  const selectedItem = items.find((item) => item.id === selectedItemId) ?? items[0];
+  const selectedItem = items.find(item => item.id === selectedItemId) ?? items[0];
 
   return (
     <div className="flex flex-col pb-6">
@@ -40,10 +45,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ items, onUpdateItemName, onUpda
         onUpdateItemName={onUpdateItemName}
         onUpdateItemImage={onUpdateItemImage}
         onRemoveItem={onRemoveItem}
-        onActiveItemChange={(item) => setSelectedItemId(item.id)}
+        onActiveItemChange={item => setSelectedItemId(item.id)}
       />
       <MemoSection />
-      <NotificationCenter isOpen={isNotificationOpen} onClose={() => setIsNotificationOpen(false)} />
+      <NotificationCenter
+        isOpen={isNotificationOpen}
+        onClose={() => setIsNotificationOpen(false)}
+      />
     </div>
   );
 };

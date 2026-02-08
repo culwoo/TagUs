@@ -4,7 +4,13 @@ import { itemService } from '../firebase/items';
 import { useAuthStore } from './authStore';
 import { useActivityStore } from './activityStore';
 import { useNotificationStore } from './notificationStore';
-import { createDefaultItemLocation, normalizeItem, type Item, type ItemLocation, type ItemStatus } from '../../shared/domain';
+import {
+  createDefaultItemLocation,
+  normalizeItem,
+  type Item,
+  type ItemLocation,
+  type ItemStatus,
+} from '../../shared/domain';
 import { MAX_ITEM_NAME_LENGTH } from '../constants/item';
 
 export type { Item, ItemLocation, ItemStatus } from '../../shared/domain';
@@ -29,11 +35,15 @@ const withUpdatedAt = <T extends Partial<Item>>(updates: T): T & { updatedAt: nu
 
 const normalizeItemName = (name: string) => name.trim().slice(0, MAX_ITEM_NAME_LENGTH);
 
-const pushNotificationSafely = (title: string, message: string, type: 'info' | 'success' | 'warning' | 'error') => {
+const pushNotificationSafely = (
+  title: string,
+  message: string,
+  type: 'info' | 'success' | 'warning' | 'error'
+) => {
   void useNotificationStore
     .getState()
     .addNotification(title, message, type)
-    .catch((error) => {
+    .catch(error => {
       console.error('Failed to push notification:', error);
     });
 };
@@ -42,15 +52,18 @@ export const useItemsStore = create<ItemsStore>()(
   persist(
     (set, get) => ({
       items: [],
-      addItem: async (item) => {
+      addItem: async item => {
         const previousItems = get().items;
         const normalizedName = normalizeItemName(item.name);
         if (!normalizedName) {
           throw new Error('아이템 이름을 입력해주세요.');
         }
 
-        const normalized = normalizeItem({ ...item, name: normalizedName }, item.location ?? createDefaultItemLocation());
-        set((state) => ({ items: [...state.items, normalized] }));
+        const normalized = normalizeItem(
+          { ...item, name: normalizedName },
+          item.location ?? createDefaultItemLocation()
+        );
+        set(state => ({ items: [...state.items, normalized] }));
 
         try {
           const userId = getUserId();
@@ -58,7 +71,11 @@ export const useItemsStore = create<ItemsStore>()(
             await itemService.addItem(userId, normalized);
           }
           useActivityStore.getState().addActivity('item.add', `아이템 추가: ${normalized.name}`);
-          pushNotificationSafely('아이템 추가', `"${normalized.name}" 아이템이 등록되었습니다.`, 'success');
+          pushNotificationSafely(
+            '아이템 추가',
+            `"${normalized.name}" 아이템이 등록되었습니다.`,
+            'success'
+          );
         } catch (error) {
           set({ items: previousItems });
           throw error;
@@ -72,8 +89,8 @@ export const useItemsStore = create<ItemsStore>()(
 
         const previousItems = get().items;
         const updates = withUpdatedAt({ name: normalizedName });
-        set((state) => ({
-          items: state.items.map((item) => (item.id === itemId ? { ...item, ...updates } : item)),
+        set(state => ({
+          items: state.items.map(item => (item.id === itemId ? { ...item, ...updates } : item)),
         }));
 
         try {
@@ -81,8 +98,14 @@ export const useItemsStore = create<ItemsStore>()(
           if (userId) {
             await itemService.updateItem(userId, itemId, updates);
           }
-          useActivityStore.getState().addActivity('item.update', `아이템 이름 변경: ${normalizedName}`);
-          pushNotificationSafely('아이템 수정', `이름이 "${normalizedName}"(으)로 변경되었습니다.`, 'info');
+          useActivityStore
+            .getState()
+            .addActivity('item.update', `아이템 이름 변경: ${normalizedName}`);
+          pushNotificationSafely(
+            '아이템 수정',
+            `이름이 "${normalizedName}"(으)로 변경되었습니다.`,
+            'info'
+          );
         } catch (error) {
           set({ items: previousItems });
           throw error;
@@ -91,8 +114,8 @@ export const useItemsStore = create<ItemsStore>()(
       updateItemImage: async (itemId, newImageUrl, storagePath) => {
         const previousItems = get().items;
         const updates = withUpdatedAt({ image: newImageUrl, storagePath });
-        set((state) => ({
-          items: state.items.map((item) => (item.id === itemId ? { ...item, ...updates } : item)),
+        set(state => ({
+          items: state.items.map(item => (item.id === itemId ? { ...item, ...updates } : item)),
         }));
 
         try {
@@ -110,8 +133,8 @@ export const useItemsStore = create<ItemsStore>()(
       updateItemLocation: async (itemId, location) => {
         const previousItems = get().items;
         const updates = withUpdatedAt({ location });
-        set((state) => ({
-          items: state.items.map((item) => (item.id === itemId ? { ...item, ...updates } : item)),
+        set(state => ({
+          items: state.items.map(item => (item.id === itemId ? { ...item, ...updates } : item)),
         }));
 
         try {
@@ -129,8 +152,8 @@ export const useItemsStore = create<ItemsStore>()(
       updateItemStatus: async (itemId, status) => {
         const previousItems = get().items;
         const updates = withUpdatedAt({ status });
-        set((state) => ({
-          items: state.items.map((item) => (item.id === itemId ? { ...item, ...updates } : item)),
+        set(state => ({
+          items: state.items.map(item => (item.id === itemId ? { ...item, ...updates } : item)),
         }));
 
         try {
@@ -139,17 +162,21 @@ export const useItemsStore = create<ItemsStore>()(
             await itemService.updateItem(userId, itemId, updates);
           }
           useActivityStore.getState().addActivity('item.update', `아이템 상태 변경: ${status}`);
-          pushNotificationSafely('상태 업데이트', `아이템 상태가 ${status}(으)로 변경되었습니다.`, 'info');
+          pushNotificationSafely(
+            '상태 업데이트',
+            `아이템 상태가 ${status}(으)로 변경되었습니다.`,
+            'info'
+          );
         } catch (error) {
           set({ items: previousItems });
           throw error;
         }
       },
-      removeItem: async (itemId) => {
+      removeItem: async itemId => {
         const previousItems = get().items;
-        const targetItem = get().items.find((item) => item.id === itemId);
-        set((state) => ({
-          items: state.items.filter((item) => item.id !== itemId),
+        const targetItem = get().items.find(item => item.id === itemId);
+        set(state => ({
+          items: state.items.filter(item => item.id !== itemId),
         }));
 
         try {
@@ -164,19 +191,19 @@ export const useItemsStore = create<ItemsStore>()(
           throw error;
         }
       },
-      setItems: (items) => set({ items: items.map((item) => normalizeItem(item, item.location)) }),
+      setItems: items => set({ items: items.map(item => normalizeItem(item, item.location)) }),
     }),
     {
       name: 'tagus-items-storage',
       version: 2,
-      migrate: (persistedState) => {
+      migrate: persistedState => {
         const typedState = persistedState as { items?: Item[] } | undefined;
         if (!typedState?.items) {
           return { items: [] };
         }
 
         return {
-          items: typedState.items.map((item) => normalizeItem(item, item.location)),
+          items: typedState.items.map(item => normalizeItem(item, item.location)),
         };
       },
     }

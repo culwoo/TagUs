@@ -12,10 +12,10 @@ interface NotificationCenterProps {
 const ANIMATION_MS = 260;
 
 const NotificationCenter: React.FC<NotificationCenterProps> = ({ isOpen, onClose }) => {
-  const notifications = useNotificationStore((state) => state.notifications);
-  const markAsRead = useNotificationStore((state) => state.markAsRead);
-  const deleteNotification = useNotificationStore((state) => state.deleteNotification);
-  const deleteAllNotifications = useNotificationStore((state) => state.deleteAllNotifications);
+  const notifications = useNotificationStore(state => state.notifications);
+  const markAsRead = useNotificationStore(state => state.markAsRead);
+  const deleteNotification = useNotificationStore(state => state.deleteNotification);
+  const deleteAllNotifications = useNotificationStore(state => state.deleteAllNotifications);
   const { showToast } = useToast();
 
   const [shouldRender, setShouldRender] = React.useState(isOpen);
@@ -131,7 +131,7 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({ isOpen, onClose
           background:
             'linear-gradient(180deg, rgba(233,242,251,0.98) 0%, rgba(222,232,244,0.96) 100%)',
         }}
-        onClick={(event) => event.stopPropagation()}
+        onClick={event => event.stopPropagation()}
       >
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2 text-[#254179]">
@@ -158,14 +158,14 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({ isOpen, onClose
           </div>
         </div>
 
-        <div
-          className="hide-scrollbar mt-4 space-y-3 overflow-y-auto overscroll-contain max-h-[calc(84vh-98px)] pr-1"
-        >
+        <div className="hide-scrollbar mt-4 space-y-3 overflow-y-auto overscroll-contain max-h-[calc(84vh-98px)] pr-1">
           {notifications.length === 0 && (
-            <div className="neumorphic-input rounded-2xl p-4 text-sm text-[#6B7280]">새로운 알림이 없습니다.</div>
+            <div className="neumorphic-input rounded-2xl p-4 text-sm text-[#6B7280]">
+              새로운 알림이 없습니다.
+            </div>
           )}
 
-          {notifications.map((notification) => (
+          {notifications.map(notification => (
             <div
               key={notification.id}
               className={`rounded-2xl p-4 border border-white/50 ${
@@ -175,8 +175,12 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({ isOpen, onClose
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-sm font-semibold text-[#111827]">{notification.title}</p>
-                  <p className="text-sm text-[#4B5563] mt-1 whitespace-pre-wrap">{notification.message}</p>
-                  <p className="text-[11px] text-[#6B7280] mt-2">{new Date(notification.createdAt).toLocaleString()}</p>
+                  <p className="text-sm text-[#4B5563] mt-1 whitespace-pre-wrap">
+                    {notification.message}
+                  </p>
+                  <p className="text-[11px] text-[#6B7280] mt-2">
+                    {new Date(notification.createdAt).toLocaleString()}
+                  </p>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   {!notification.isRead && (

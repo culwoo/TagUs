@@ -1,7 +1,14 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export type ActivityType = 'item.add' | 'item.update' | 'item.remove' | 'memo.save' | 'location.update' | 'auth.signin' | 'auth.signout';
+export type ActivityType =
+  | 'item.add'
+  | 'item.update'
+  | 'item.remove'
+  | 'memo.save'
+  | 'location.update'
+  | 'auth.signin'
+  | 'auth.signout';
 
 export interface Activity {
   id: string;
@@ -18,10 +25,10 @@ interface ActivityStore {
 
 export const useActivityStore = create<ActivityStore>()(
   persist(
-    (set) => ({
+    set => ({
       activities: [],
       addActivity: (type, message) =>
-        set((state) => ({
+        set(state => ({
           activities: [
             { id: `${Date.now()}-${Math.random()}`, type, message, timestamp: Date.now() },
             ...state.activities,

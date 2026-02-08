@@ -56,8 +56,8 @@ class Logger {
     // Console output with colors
     const colors = {
       [LogLevel.DEBUG]: '\x1b[36m', // Cyan
-      [LogLevel.INFO]: '\x1b[32m',  // Green
-      [LogLevel.WARN]: '\x1b[33m',  // Yellow
+      [LogLevel.INFO]: '\x1b[32m', // Green
+      [LogLevel.WARN]: '\x1b[33m', // Yellow
       [LogLevel.ERROR]: '\x1b[31m', // Red
     };
 
@@ -100,10 +100,12 @@ export const logger = new Logger();
 
 // Convenience functions
 export const log = {
-  debug: (message: string, context?: string, data?: unknown) => logger.debug(message, context, data),
+  debug: (message: string, context?: string, data?: unknown) =>
+    logger.debug(message, context, data),
   info: (message: string, context?: string, data?: unknown) => logger.info(message, context, data),
   warn: (message: string, context?: string, data?: unknown) => logger.warn(message, context, data),
-  error: (message: string, context?: string, data?: unknown) => logger.error(message, context, data),
+  error: (message: string, context?: string, data?: unknown) =>
+    logger.error(message, context, data),
   getLogs: () => logger.getLogs(),
   clearLogs: () => logger.clearLogs(),
 };

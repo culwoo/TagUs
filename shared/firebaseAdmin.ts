@@ -25,10 +25,14 @@ const getFirebaseAdminApp = (): App => {
     });
   }
 
-  throw new Error('Firebase Admin credentials are missing. Set FIREBASE_PROJECT_ID/FIREBASE_CLIENT_EMAIL/FIREBASE_PRIVATE_KEY.');
+  throw new Error(
+    'Firebase Admin credentials are missing. Set FIREBASE_PROJECT_ID/FIREBASE_CLIENT_EMAIL/FIREBASE_PRIVATE_KEY.'
+  );
 };
 
-export const verifyFirebaseIdToken = async (authorizationHeader?: string): Promise<DecodedIdToken> => {
+export const verifyFirebaseIdToken = async (
+  authorizationHeader?: string
+): Promise<DecodedIdToken> => {
   if (!authorizationHeader?.startsWith('Bearer ')) {
     throw new Error('Missing Bearer token');
   }

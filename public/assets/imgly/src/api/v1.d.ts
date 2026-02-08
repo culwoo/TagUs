@@ -1,5 +1,12 @@
 export default removeBackground;
-export { preload, removeBackground, removeForeground, alphamask, segmentForeground, applySegmentationMask };
+export {
+  preload,
+  removeBackground,
+  removeForeground,
+  alphamask,
+  segmentForeground,
+  applySegmentationMask,
+};
 export type { Config, ImageSource };
 import { Config } from '../schema';
 import { ImageSource } from '../utils';

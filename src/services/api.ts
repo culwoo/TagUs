@@ -68,7 +68,7 @@ const loadImageFromFile = (file: File): Promise<HTMLImageElement> =>
 const canvasToBlob = (canvas: HTMLCanvasElement, quality: number): Promise<Blob> =>
   new Promise((resolve, reject) => {
     canvas.toBlob(
-      (blob) => {
+      blob => {
         if (!blob) {
           reject(new Error('이미지 압축에 실패했습니다.'));
           return;
@@ -80,7 +80,9 @@ const canvasToBlob = (canvas: HTMLCanvasElement, quality: number): Promise<Blob>
     );
   });
 
-const optimizeImageForApi = async (file: File): Promise<{ imageBase64: string; mimeType: string }> => {
+const optimizeImageForApi = async (
+  file: File
+): Promise<{ imageBase64: string; mimeType: string }> => {
   const originalBase64 = await blobToBase64(file);
   if (originalBase64.length <= MAX_API_BASE64_LENGTH) {
     return {
@@ -151,7 +153,9 @@ export const api = {
   },
 
   // Background removal using Gemini gemini-3-pro-image-preview
-  removeBackground: async (request: BackgroundRemovalRequest): Promise<BackgroundRemovalResponse> => {
+  removeBackground: async (
+    request: BackgroundRemovalRequest
+  ): Promise<BackgroundRemovalResponse> => {
     const payload = await optimizeImageForApi(request.imageFile);
 
     const response = await apiClient.post<RemoveBackgroundResponse>('/remove-background', {

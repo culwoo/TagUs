@@ -1,4 +1,12 @@
-import { collection, deleteDoc, doc, getDocs, setDoc, updateDoc, writeBatch } from 'firebase/firestore';
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  setDoc,
+  updateDoc,
+  writeBatch,
+} from 'firebase/firestore';
 import { db } from './config';
 
 export type NotificationType = 'info' | 'success' | 'warning' | 'error';
@@ -18,7 +26,7 @@ export const notificationService = {
     const snapshot = await getDocs(ref);
 
     return snapshot.docs
-      .map((docSnapshot) => docSnapshot.data() as AppNotification)
+      .map(docSnapshot => docSnapshot.data() as AppNotification)
       .sort((a, b) => b.createdAt - a.createdAt);
   },
 
@@ -46,7 +54,7 @@ export const notificationService = {
     }
 
     const batch = writeBatch(db);
-    snapshot.docs.forEach((docSnapshot) => {
+    snapshot.docs.forEach(docSnapshot => {
       batch.delete(docSnapshot.ref);
     });
 

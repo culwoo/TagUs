@@ -10,7 +10,12 @@ const StatusBar: React.FC = () => {
   return (
     <div className="flex items-center justify-between px-[38px] pt-[15px] pb-[10px]">
       {/* Time */}
-      <span className="text-[18px] font-semibold leading-[18px] tracking-[-0.36px] text-[#202020]" style={{ fontFamily: 'SF Pro Display, -apple-system, system-ui, BlinkMacSystemFont, sans-serif' }}>
+      <span
+        className="text-[18px] font-semibold leading-[18px] tracking-[-0.36px] text-[#202020]"
+        style={{
+          fontFamily: 'SF Pro Display, -apple-system, system-ui, BlinkMacSystemFont, sans-serif',
+        }}
+      >
         {currentTime}
       </span>
 

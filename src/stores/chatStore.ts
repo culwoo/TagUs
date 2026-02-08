@@ -27,16 +27,16 @@ export const useChatStore = create<ChatStore>()(
   persist(
     (set, get) => ({
       threads: [],
-      setThreads: (threads) => set({ threads }),
+      setThreads: threads => set({ threads }),
       ensureDefaultThread: async () => {
         if (get().threads.length > 0) {
           return;
         }
         await get().upsertThread(defaultThread());
       },
-      upsertThread: async (thread) => {
-        set((state) => {
-          const existingIndex = state.threads.findIndex((item) => item.id === thread.id);
+      upsertThread: async thread => {
+        set(state => {
+          const existingIndex = state.threads.findIndex(item => item.id === thread.id);
           if (existingIndex === -1) {
             return { threads: [thread, ...state.threads] };
           }

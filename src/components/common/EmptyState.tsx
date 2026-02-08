@@ -21,12 +21,8 @@ const EmptyState: React.FC<EmptyStateProps> = ({
       <div className="neumorphic-card w-24 h-24 rounded-full flex items-center justify-center mb-6">
         {icon || <Package size={40} className="text-[#737373]" />}
       </div>
-      <h3 className="text-xl font-bold text-[#202020] text-center mb-2">
-        {title}
-      </h3>
-      <p className="text-sm text-[#737373] text-center max-w-[250px] mb-6">
-        {description}
-      </p>
+      <h3 className="text-xl font-bold text-[#202020] text-center mb-2">{title}</h3>
+      <p className="text-sm text-[#737373] text-center max-w-[250px] mb-6">{description}</p>
       {actionLabel && onAction && (
         <button
           onClick={onAction}
