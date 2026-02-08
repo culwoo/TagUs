@@ -14,13 +14,29 @@ declare global {
   }
 }
 
+const isTestMode = import.meta.env.MODE === 'test';
+const pickEnv = (value: string | undefined, fallback: string) =>
+  value && value.trim().length > 0 ? value : fallback;
+
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  apiKey: pickEnv(import.meta.env.VITE_FIREBASE_API_KEY, isTestMode ? 'test-api-key' : ''),
+  authDomain: pickEnv(
+    import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    isTestMode ? 'test-project.firebaseapp.com' : ''
+  ),
+  projectId: pickEnv(import.meta.env.VITE_FIREBASE_PROJECT_ID, isTestMode ? 'test-project' : ''),
+  storageBucket: pickEnv(
+    import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    isTestMode ? 'test-project.appspot.com' : ''
+  ),
+  messagingSenderId: pickEnv(
+    import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    isTestMode ? '000000000000' : ''
+  ),
+  appId: pickEnv(
+    import.meta.env.VITE_FIREBASE_APP_ID,
+    isTestMode ? '1:000000000000:web:testappid0000000000' : ''
+  ),
 };
 
 // Initialize Firebase
