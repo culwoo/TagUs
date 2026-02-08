@@ -1,0 +1,23 @@
+# Ignore heavy local development repos
+mui-repo/
+shadcn-ui/
+
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+.firebase/
+.sisyphus/
+.opencode/
+
+# Configs not needed for production
+.github/
+TEST_PROPOSAL.md
+CHANGELOG.md
+remove_bg*.py
+
+# Locally generated assets
+.gemini/
+.env*
+!.env.production

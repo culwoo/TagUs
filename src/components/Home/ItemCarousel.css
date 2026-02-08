@@ -1,0 +1,16 @@
+.swiper-pagination-bullet {
+    width: 12px;
+    height: 12px;
+    background: #E0E0E0;
+    opacity: 1;
+    transition: all 0.3s ease;
+    margin: 0 6px !important;
+}
+
+.swiper-pagination-bullet-active {
+    background: #3B82F6;
+    /* Blue */
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+    /* Blue glow */
+    transform: scale(1.2);
+}

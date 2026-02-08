@@ -1,0 +1,30 @@
+{
+    "name": "TagUs",
+    "short_name": "TagUs",
+    "description": "AI 기반 분실물 관리 앱 - 사진으로 물건을 인식하고 관리하세요",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#DEE8F4",
+    "theme_color": "#254179",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "/icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": [
+        "utilities",
+        "productivity"
+    ],
+    "lang": "ko",
+    "dir": "ltr"
+}
